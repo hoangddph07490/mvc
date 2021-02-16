@@ -13,7 +13,7 @@
         {
             extract($this->vars);
             ob_start();
-            require(ROOT . "Views/" . ucfirst(str_replace('Controller', '', get_class($this))) . '/' . $filename . '.php');
+            require(ROOT . "App/Views/" . ucfirst(str_replace('Controller', '', get_class($this))) . '/' . $filename . '.php');
             $content_for_layout = ob_get_clean();
 
             if ($this->layout == false)
@@ -22,7 +22,7 @@
             }
             else
             {
-                require(ROOT . "Views/Layouts/" . $this->layout . '.php');
+                require(ROOT . "App/Views/Layouts/" . $this->layout . '.php');
             }
         }
 
