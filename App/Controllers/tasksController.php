@@ -1,61 +1,63 @@
 <?php
+
+namespace App\Controllers;
+
+use App\Core\Controller;
+use App\Models\Task;
+
 class tasksController extends Controller
 {
     function index()
     {
-        require(ROOT . 'App/Models/Task.php');
-
         $tasks = new Task();
 
-        $d['tasks'] = $tasks->showAllTasks();
+        $d['tasks'] = $tasks->all();
         $this->set($d);
-        $this->render("index");
+        $this->render("/Tasks/index");
     }
 
     function create()
     {
         if (isset($_POST["title"]))
         {
-            require(ROOT . 'App/Models/Task.php');
-
             $task= new Task();
 
-            if ($task->create($_POST["title"], $_POST["description"]))
+            if ($task->create($_POST))
             {
-                header("Location: " . WEBROOT . "tasks/index");
+                header("Location: " . WEBROOT . "/");
             }
         }
 
-        $this->render("create");
+        $this->render("/Tasks/create");
     }
 
-    function edit($id)
+    function edit()
     {
-        require(ROOT . 'App/Models/Task.php');
+        $id = isset($_GET['id']) ? $_GET['id'] : "";
         $task= new Task();
 
-        $d["task"] = $task->showTask($id);
+        $d["task"] = $task->find($id);
 
         if (isset($_POST["title"]))
         {
-            if ($task->edit($id, $_POST["title"], $_POST["description"]))
+            if ($task->where('id', $id)->update($_POST))
             {
-                header("Location: " . WEBROOT . "tasks/index");
+                header("Location: " . WEBROOT . "/");
             }
         }
         $this->set($d);
-        $this->render("edit");
+        $this->render("/Tasks/edit");
     }
 
-    function delete($id)
+    function delete()
     {
-        require(ROOT . 'App/Models/Task.php');
-
+        $id = isset($_GET['id']) ? $_GET['id'] : "";
         $task = new Task();
-        if ($task->delete($id))
+        if ($task->where('id', $id)->delete())
         {
-            header("Location: " . WEBROOT . "tasks/index");
+            header("Location: " . WEBROOT . "/");
         }
+        echo "Lỗi không xóa được";
     }
 }
 ?>

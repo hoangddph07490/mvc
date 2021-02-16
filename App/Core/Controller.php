@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Core;
+
     class Controller
     {
         var $vars = [];
@@ -13,7 +16,7 @@
         {
             extract($this->vars);
             ob_start();
-            require(ROOT . "App/Views/" . ucfirst(str_replace('Controller', '', get_class($this))) . '/' . $filename . '.php');
+            require(ROOT . "App/Views/" . $filename . '.php');
             $content_for_layout = ob_get_clean();
 
             if ($this->layout == false)
