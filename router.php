@@ -13,6 +13,24 @@ class Router
             $request->action = "index";
             $request->params = [];
         }
+        elseif ($url == "/mvc/tasks/create/")
+        {
+            $request->controller = "tasks";
+            $request->action = "create";
+            $request->params = [];
+        }
+        elseif ($url == "/mvc/tasks/edit/")
+        {
+            $request->controller = "tasks";
+            $request->action = "edit";
+            $request->params = [];
+        }
+        elseif ($url == "/mvc/tasks/delete/")
+        {
+            $request->controller = "tasks";
+            $request->action = "delete";
+            $request->params = [];
+        }
         else
         {
             $explode_url = explode('/', $url);
