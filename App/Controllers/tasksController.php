@@ -18,16 +18,6 @@ class tasksController extends Controller
 
     function create()
     {
-        if (isset($_POST["title"]))
-        {
-            $task= new Task();
-
-            if ($task->create($_POST))
-            {
-                header("Location: " . WEBROOT . "/");
-            }
-        }
-
         $this->render("/Tasks/create");
     }
 
@@ -42,11 +32,76 @@ class tasksController extends Controller
         {
             if ($task->where('id', $id)->update($_POST))
             {
-                header("Location: " . WEBROOT . "/");
+                header("Location: " . WEBROOT);
             }
         }
         $this->set($d);
         $this->render("/Tasks/edit");
+    }
+
+    function add()
+    {
+        $titleErr = "";
+        $desErr = "";
+
+        if (strlen($_POST['title']) == 0) 
+        {
+            $titleErr = "Không để trống tiêu đề";
+        }
+        if ($_POST['description'] == "") 
+        {
+            $desErr = "Không để trống mô tả";
+        }
+
+        if ($titleErr != "" || $desErr != "")
+        {
+            header("Location: " . WEBROOT . "tasks/create?titleErr=$titleErr&&desErr=$desErr");
+            die;
+        }
+
+        $task = new Task();
+
+        if ($task->create($_POST)) 
+        {
+            header("Location: " . WEBROOT);
+        } else {
+            echo "Lỗi không thêm được";
+            die;
+        }
+        
+    }
+
+    function update()
+    {
+        $id = isset($_GET['id']) ? $_GET['id'] : "";
+        $task=  Task::find($id);
+
+        $titleErr = "";
+        $desErr = "";
+
+        if ($_POST['title'] == "") 
+        {
+            $titleErr = "Không để trống tiêu đề";
+        }
+        if ($_POST['description'] == "") 
+        {
+            $desErr = "Không để trống mô tả";
+        }
+
+        if ($titleErr != "" || $desErr != "")
+        {
+            header("Location: " . WEBROOT . "tasks/edit?id=$task->id&&titleErr=$titleErr&&desErr=$desErr");
+            die;
+        }
+
+        if ($task->where('id', $id)->update($_POST))
+        {
+            header("Location: " . WEBROOT);
+        } else {
+            echo "Lỗi không thêm được";
+            die;
+        }
+        
     }
 
     function delete()
@@ -55,7 +110,7 @@ class tasksController extends Controller
         $task = new Task();
         if ($task->where('id', $id)->delete())
         {
-            header("Location: " . WEBROOT . "/");
+            header("Location: " . WEBROOT);
         }
         echo "Lỗi không xóa được";
     }

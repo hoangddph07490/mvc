@@ -22,14 +22,24 @@ switch ($url) {
         $ctl->index();
         break;
 
-    case "tasks/create/":
+    case "tasks/create":
         $ctl = new tasksController;
         $ctl->create();
+        break;
+
+    case "tasks/add":
+        $ctl = new tasksController;
+        $ctl->add();
         break;
 
     case "tasks/edit":
         $ctl = new tasksController;
         $ctl->edit();
+        break;
+
+    case "tasks/update":
+        $ctl = new tasksController;
+        $ctl->update();
         break;
 
     case "tasks/delete":
