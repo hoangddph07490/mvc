@@ -1,61 +1,118 @@
 <?php
+
+namespace App\Controllers;
+
+use App\Core\Controller;
+use App\Models\Task;
+
 class tasksController extends Controller
 {
     function index()
     {
-        require(ROOT . 'App/Models/Task.php');
-
         $tasks = new Task();
 
-        $d['tasks'] = $tasks->showAllTasks();
+        $d['tasks'] = $tasks->all();
         $this->set($d);
-        $this->render("index");
+        $this->render("/Tasks/index");
     }
 
     function create()
     {
-        if (isset($_POST["title"]))
-        {
-            require(ROOT . 'App/Models/Task.php');
-
-            $task= new Task();
-
-            if ($task->create($_POST["title"], $_POST["description"]))
-            {
-                header("Location: " . WEBROOT . "tasks/index");
-            }
-        }
-
-        $this->render("create");
+        $this->render("/Tasks/create");
     }
 
-    function edit($id)
+    function edit()
     {
-        require(ROOT . 'App/Models/Task.php');
+        $id = isset($_GET['id']) ? $_GET['id'] : "";
         $task= new Task();
 
-        $d["task"] = $task->showTask($id);
+        $d["task"] = $task->find($id);
 
         if (isset($_POST["title"]))
         {
-            if ($task->edit($id, $_POST["title"], $_POST["description"]))
+            if ($task->where('id', $id)->update($_POST))
             {
-                header("Location: " . WEBROOT . "tasks/index");
+                header("Location: " . WEBROOT);
             }
         }
         $this->set($d);
-        $this->render("edit");
+        $this->render("/Tasks/edit");
     }
 
-    function delete($id)
+    function add()
     {
-        require(ROOT . 'App/Models/Task.php');
+        $titleErr = "";
+        $desErr = "";
+
+        if (strlen($_POST['title']) == 0) 
+        {
+            $titleErr = "Không để trống tiêu đề";
+        }
+        if ($_POST['description'] == "") 
+        {
+            $desErr = "Không để trống mô tả";
+        }
+
+        if ($titleErr != "" || $desErr != "")
+        {
+            header("Location: " . WEBROOT . "tasks/create?titleErr=$titleErr&&desErr=$desErr");
+            die;
+        }
 
         $task = new Task();
-        if ($task->delete($id))
+
+        if ($task->create($_POST)) 
         {
-            header("Location: " . WEBROOT . "tasks/index");
+            header("Location: " . WEBROOT);
+        } else {
+            echo "Lỗi không thêm được";
+            die;
         }
+        
+    }
+
+    function update()
+    {
+        $id = isset($_GET['id']) ? $_GET['id'] : "";
+        $task=  Task::find($id);
+
+        $titleErr = "";
+        $desErr = "";
+
+        if ($_POST['title'] == "") 
+        {
+            $titleErr = "Không để trống tiêu đề";
+        }
+        if ($_POST['description'] == "") 
+        {
+            $desErr = "Không để trống mô tả";
+        }
+
+        if ($titleErr != "" || $desErr != "")
+        {
+            header("Location: " . WEBROOT . "tasks/edit?id=$task->id&&titleErr=$titleErr&&desErr=$desErr");
+            die;
+        }
+
+        if ($task->where('id', $id)->update($_POST))
+        {
+            header("Location: " . WEBROOT);
+        } else {
+            echo "Lỗi không thêm được";
+            die;
+        }
+        
+    }
+
+    function delete()
+    {
+        $id = isset($_GET['id']) ? $_GET['id'] : "";
+        $task = new Task();
+        if ($task->where('id', $id)->delete())
+        {
+            header("Location: " . WEBROOT);
+        }
+        echo "Lỗi không xóa được";
     }
 }
 ?>

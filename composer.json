@@ -3,5 +3,8 @@
         "psr-4": {
             "App\\":"App//"
         }
+    },
+    "require": {
+        "illuminate/database": "^7.8"
     }
 }
