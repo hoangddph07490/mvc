@@ -8,7 +8,7 @@ $url = isset($_GET['url']) ? $_GET['url'] : "/";
 require(ROOT . 'vendor/autoload.php');
 require(ROOT . 'Config/db.php');
 
-use App\Controllers\tasksController;
+use App\Controllers\TasksController;
 
 // require(ROOT . 'router.php');
 // require(ROOT . 'request.php');
@@ -18,32 +18,22 @@ use App\Controllers\tasksController;
 // $dispatch->dispatch();
 switch ($url) {
     case "/":
-        $ctl = new tasksController;
+        $ctl = new TasksController;
         $ctl->index();
         break;
 
     case "tasks/create":
-        $ctl = new tasksController;
+        $ctl = new TasksController;
         $ctl->create();
         break;
 
-    case "tasks/add":
-        $ctl = new tasksController;
-        $ctl->add();
-        break;
-
     case "tasks/edit":
-        $ctl = new tasksController;
+        $ctl = new TasksController;
         $ctl->edit();
         break;
 
-    case "tasks/update":
-        $ctl = new tasksController;
-        $ctl->update();
-        break;
-
     case "tasks/delete":
-        $ctl = new tasksController;
+        $ctl = new TasksController;
         $ctl->delete();
         break;
 
