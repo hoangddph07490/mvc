@@ -1,4 +1,5 @@
 <?php
+namespace AHT;
 
 class Dispatcher
 {
@@ -19,9 +20,8 @@ class Dispatcher
     public function loadController()
     {
         $name = $this->request->controller . "Controller";
-        $file = ROOT . 'App/Controllers/' . $name . '.php';
-        require($file);
-        $controller = new $name();
+        $file = 'App\\Controllers\\' . $name;
+        $controller = new $file();
         return $controller;
     }
 

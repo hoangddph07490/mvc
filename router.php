@@ -1,5 +1,7 @@
 <?php
 
+namespace AHT;
+
 class Router
 {
 
@@ -9,25 +11,25 @@ class Router
 
         if ($url == "/mvc/")
         {
-            $request->controller = "tasks";
+            $request->controller = "Tasks";
             $request->action = "index";
             $request->params = [];
         }
         elseif ($url == "/mvc/tasks/create/")
         {
-            $request->controller = "tasks";
+            $request->controller = "Tasks";
             $request->action = "create";
             $request->params = [];
         }
         elseif ($url == "/mvc/tasks/edit/")
         {
-            $request->controller = "tasks";
+            $request->controller = "Tasks";
             $request->action = "edit";
             $request->params = [];
         }
         elseif ($url == "/mvc/tasks/delete/")
         {
-            $request->controller = "tasks";
+            $request->controller = "Tasks";
             $request->action = "delete";
             $request->params = [];
         }

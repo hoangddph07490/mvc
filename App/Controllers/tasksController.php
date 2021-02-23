@@ -56,9 +56,8 @@ class TasksController extends Controller
         $this->render("/Tasks/create");
     }
 
-    function edit()
+    function edit($id)
     {
-        $id = isset($_GET['id']) ? $_GET['id'] : "";
         $task = $this->taskRepository->getById($id);
         $d['task'] = $task;
 
@@ -78,7 +77,7 @@ class TasksController extends Controller
 
             if ($titleErr != "" || $desErr != "")
             {
-                header("Location: " . WEBROOT . "tasks/edit?id=$task->id&&titleErr=$titleErr&&desErr=$desErr");
+                header("Location: " . WEBROOT . "tasks/edit/$task->id&&titleErr=$titleErr&&desErr=$desErr");
                 die;
             }
             $this->taskRepository->update($id, $_POST);
@@ -95,9 +94,8 @@ class TasksController extends Controller
         $this->render("/Tasks/edit");
     }
 
-    function delete()
+    function delete($id)
     {
-        $id = isset($_GET['id']) ? $_GET['id'] : "";
         $this->taskRepository->delete($id);
         header("Location: " . WEBROOT);
     }
