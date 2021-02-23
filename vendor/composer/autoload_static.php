@@ -60,6 +60,7 @@ class ComposerStaticInit430ca0eba1c9b6548648dbe162b95402
         'A' => 
         array (
             'App\\' => 4,
+            'AHT\\' => 4,
         ),
     );
 
@@ -147,6 +148,10 @@ class ComposerStaticInit430ca0eba1c9b6548648dbe162b95402
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App',
+        ),
+        'AHT\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/',
         ),
     );
 
